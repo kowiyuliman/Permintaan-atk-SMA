@@ -13,8 +13,8 @@ class TransactionDetail extends BaseModel
         'transaction_id',
         'item_id',
         'qty',
-        'price',
-        'total_price',
+        // 'price',
+        // 'total_price',
     ];
 
     public function transaction() {

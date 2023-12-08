@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">{{ __('Tambah Pembelian Barang') }}</div>
+                    <div class="card-header">{{ __('Tambah ATK In') }}</div>
 
                     <div class="card-body">
                         {!! Form::open(['route' => ['order.store'], 'method' => 'post']) !!}
@@ -55,19 +55,20 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    {!! Form::label('status', 'Status') !!}
-                                    {!! Form::select('status', [null=>'Please Select'] + \App\Models\Order::statusLabels(), null, ['class' => $errors->has('status') ? 'form-control is-invalid' : 'form-control']) !!}
-                                    @if($errors->has('status'))
-                                        <div class="invalid-feedback">
-                                            <strong>{{ $errors->first('status') }}</strong>
-                                        </div>
-                                    @endif
+                                        {!! Form::label('image', 'Unggah Surat Jalan') !!}
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="exampleInputFile">
+                                        <label class="custom-file-label" for="exampleInputFile">
+                                            Choose File
+                                           
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     {!! Form::label('note', 'Catatan') !!}
-                                    {!! Form::textarea('note', null, ['class' => $errors->has('note') ? 'form-control is-invalid' : 'form-control']) !!}
+                                    {!! Form::text('note', null, ['class' => $errors->has('note') ? 'form-control is-invalid' : 'form-control']) !!}
                                     @if($errors->has('note'))
                                         <div class="invalid-feedback">
                                             <strong>{{ $errors->first('note') }}</strong>
@@ -86,19 +87,16 @@
                                     <tr>
                                         <th width="10">No</th>
                                         <th>Nama ATK</th>
-                                        <th>Harga Beli</th>
+                                        <th>Satuan</th>
                                         <th>Jumlah</th>
-                                        <th>Total Harga</th>
                                     </tr>
                                     </thead>
                                     <tbody id="items">
                                     </tbody>
                                     <tfoot>
                                     <tr>
-                                        <td colspan="4"><a href="javascript:;;" id="add-item" class="btn btn-success"><i class="fa fa-plus"></i>&nbsp; Tambah Barang</a></td>
-                                        <td>
-                                            {!! Form::label('total', 'Total Keseluruhan') !!}
-                                            <input type="number" name="grand_total" id="total" class="form-control" readonly />
+                                        <td colspan="4"><a href="javascript:;;" id="add-item" class="btn btn-success">
+                                            <i class="fa fa-plus"></i>&nbsp; Tambah Barang</a>
                                         </td>
                                     </tr>
                                     </tfoot>
@@ -122,33 +120,44 @@
             const itemsJson = @json($items);
             let itemSelect = '';
             if (itemsJson.length > 0) {
+                itemSelect += "<option value=''>Pilih</option>"
                 itemsJson.map(result => {
                     itemSelect += "<option value='"+result.id+"'>"+result.name+"</option>"
                 })
             }
             let itemsHtml = "<tr>\n" +
                 "<th>"+ (number + 1) +"</th>\n" +
-                "<th><select name='item["+number+"]' class='form-control' required>"+itemSelect+"</select></th>\n" +
-                "<th><input name='purchase_total["+number+"]' type='number' class='form-control' onkeyup='onChange("+number+")' required></th>\n" +
-                "<th><input name='qty["+number+"]' type='number' class='form-control' onkeyup='onChange("+number+")' required></th>\n" +
-                "<th><input name='total["+number+"]' type='number' readonly class='form-control' /></th>\n" +
+                "<th><select name='item["+number+"]' class='form-control' required onchange='onChangeItem("+number+", this)'>"+itemSelect+"</select></th>\n" +
+                "<th><div id='satuan_"+number+"'></div></th>\n" +
+                "<th><input name='qty["+number+"]' type='number' class='form-control' onkeyup='onChangeQty("+number+")' required></th>\n" +
+                "<th><button class='btn btn-danger remove-table-row' </button>delete</th>\n" +
                 "</tr>"
+                
             $('#items').append(itemsHtml)
             number++
         })
-        function onChange(number) {
-            let price = $('#items').find('input[name="purchase_total['+number+']"]').val()
-            let total = $('#items').find('input[name="total['+number+']"]')
-            let qty = $('#items').find('input[name="qty['+number+']"]').val()
-            if (price == '' || price == undefined) price = 0
-            if (qty == '' || qty == undefined) qty = 0
-            total.val(parseFloat(qty) * parseFloat(price))
-            totalArray[number] = total.val()
-
-            $('#total').val(totalArray.reduce(sum))
+        function onChangeQty(number) {
+            let satuan = $('#satuan_' + number).html()
+           
         }
-        function sum(total, num) {
-            return parseFloat(total) + parseFloat(num)
+        function onChangeItem(number, itemId) {
+            console.log(number)
+            if (itemId.value === '') {
+                alert('Pilih Barang')
+                return
+            }
+            $.ajax({
+                url: '/transaction/ajax-get-item/' + itemId.value,
+                success: function(result) {
+                    console.log(result)
+                    $('#satuan_' + number).html(result.data.satuan)
+                }
+            })  
         }
+        
+        //delete
+        $(document).on('click','.remove-table-row',function(){
+            $(this).parents('tr').remove();
+        });
     </script>
 @endpush

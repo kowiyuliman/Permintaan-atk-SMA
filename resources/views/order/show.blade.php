@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">{{ __('Detail Order Pembelian Barang') }}<a href="{{ route('order.index') }}" class="btn btn-sm btn-primary">Kembali</a></div>
+                    <div class="card-header">{{ __('Detail Atk Masuk') }}   <a href="{{ route('order.index') }}" class="btn btn-sm btn-primary">Kembali</a></div>
 
                     <div class="card-body">
                         <table class="table table-bordered">
@@ -22,53 +22,40 @@
                                 <td>{!! $model->supplier->name !!}</td>
                             </tr>
                             <tr>
-                                <th>Total Keseluruhan</th>
-                                <td>{!! \App\Helpers\FormatConverter::rupiahFormat($model->grand_total) !!}</td>
-                            </tr>
-                            <tr>
                                 <th>Catatan</th>
                                 <td>{!! $model->note !!}</td>
                             </tr>
                             <tr>
-                                <th>Status</th>
-                                <td>{!! $model->getStatusLabel() !!}</td>
-                            </tr>
-                            <tr>
-                                <th>Created At</th>
-                                <td>{!! $model->created_at !!}</td>
-                            </tr>
-                            <tr>
-                                <th>Updated At</th>
-                                <td>{!! $model->updated_at !!}</td>
+                                <th>Image</th>
+                                <td>{!! $model->image !!}</td>
                             </tr>
                         </table>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-header">{{ __('Detail Barang') }}</div>
-
                     <div class="card-body">
                         <table class="table table-bordered">
                             <tr>
                                 <th>No</th>
                                 <th>Nama Barang</th>
-                                <th>Harga Barang</th>
                                 <th>Jumlah</th>
-                                <th>Total Harga</th>
+                                <th>Satuan</th>
                             </tr>
                             @foreach ($model->orderDetails as $key => $orderDetail)
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>{!! $orderDetail->item->name !!}</td>
-                                    <td>{!! \App\Helpers\FormatConverter::rupiahFormat($orderDetail->price) !!}</td>
                                     <td>{!! $orderDetail->qty !!}</td>
-                                    <td>{!! \App\Helpers\FormatConverter::rupiahFormat($orderDetail->purchase_total) !!}</td>
+                                    <td>{!! $orderDetail->item->satuan !!}</td>
+                                    {{-- <td>{!! \App\Helpers\FormatConverter::rupiahFormat($orderDetail->price) !!}</td> --}}
+                                    {{-- <td>{!! \App\Helpers\FormatConverter::rupiahFormat($orderDetail->purchase_total) !!}</td> --}}
                                 </tr>
                             @endforeach
-                            <tr>
+                            {{-- <tr>
                                 <th class="text-right" colspan="4">Total Keseluruhan</th>
                                 <th>{!! \App\Helpers\FormatConverter::rupiahFormat($model->grand_total) !!}</th>
-                            </tr>
+                            </tr> --}}
                         </table>
                     </div>
                 </div>

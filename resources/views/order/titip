@@ -1,0 +1,49 @@
+{{-- @push('js')
+    <script type="text/javascript">
+        let number = 0
+        let totalArray = []
+        $('#add-item').click(function() {
+            const itemsJson = @json($items);
+            let itemSelect = '';
+            if (itemsJson.length > 0) {
+                itemsJson.map(result => {
+                    itemSelect += "<option value='"+result.id+"'>"+result.name+"</option>"
+                })
+            }
+            let itemsHtml = "<tr>\n" +
+                "<th>"+ (number + 1) +"</th>\n" +
+                "<th><select name='item["+number+"]' class='form-control' required>"+itemSelect+"</select></th>\n" +
+                "<th><div id='satuan_"+number+"'></div></th>\n" +
+                "<th><input name='qty["+number+"]' type='number' class='form-control' onkeyup='onChange("+number+")' required></th>\n" +
+                "</tr>"
+            $('#items').append(itemsHtml)
+            number++
+        })
+        function onChange(number) {
+            let satuan = $('#satuan_' + number).html()
+            let qty = $('#items').find('input[name="qty['+number+']"]').val()
+            // if (price == '' || price == undefined) price = 0
+            // if (qty == '' || qty == undefined) qty = 0
+            // total.val(parseFloat(qty) * parseFloat(price))
+            // totalArray[number] = total.val()
+
+            // $('#total').val(totalArray.reduce(sum))
+        }
+        // function sum(total, num) {
+        //     return parseFloat(total) + parseFloat(num)
+        // }
+            function onChangeItem(number, itemId) {
+            console.log(number)
+            if (itemId.value === '') {
+                alert('Pilih Barang')
+                return
+            }
+            $.ajax({
+                url: '/order/ajax-get-item/' + itemId.value,
+                success: function(result) {
+                    console.log(result)
+                        $('#satuan_' + number).html(result.data.satuan)
+                }
+            })  
+        }
+        } --}}

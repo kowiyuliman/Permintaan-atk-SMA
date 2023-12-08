@@ -238,7 +238,7 @@ return [
         [
             'text'    => 'Master Data',
             'icon'    => 'fa fa-menu',
-            'can'     => ['admin', 'employee'],
+            'can'     => ['admin'],
             'submenu' => [
                 [
                     'text' => 'Stok ATK',
@@ -277,7 +277,7 @@ return [
                 //     'url'  => 'order/create',
                 // ],
                 [
-                    'text' => 'Order Barang',
+                    'text' => 'ATK In',
                     'url'  => 'order',
                 ],
             ],
@@ -292,7 +292,7 @@ return [
                 //     'url'  => 'transaction/create',
                 // ],
                 [
-                    'text' => 'Transaksi Barang',
+                    'text' => 'ATK Out',
                     'url'  => 'transaction',
                 ],
             ],
@@ -452,6 +452,16 @@ return [
                 ],
             ],
         ],
+        // 'icon' => [
+        //     'active' => false,
+        //     'files' => [
+        //         [
+        //             'type' => 'images',
+        //             'asset' => false,
+        //             'location' => <ion-icon name="trash-outline"></ion-icon>,
+        //         ],
+        //     ],
+        // ],
     ],
 
     /*

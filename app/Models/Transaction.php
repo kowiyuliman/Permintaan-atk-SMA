@@ -17,19 +17,19 @@ class Transaction extends BaseModel
     protected $fillable = [
         'trx_number',
         'customer_id',
-        'grand_total',
+        
         'note',
         'status',
-        'user_id',
+        
     ];
 
     public function transactionDetails() {
         return $this->hasMany(TransactionDetail::class);
     }
 
-    public function user() {
-        return $this->belongsTo(User::class);
-    }
+    // public function user() {
+    //     return $this->belongsTo(User::class);
+    // }
 
     public function customer() {
         return $this->belongsTo(Customer::class);
@@ -58,15 +58,15 @@ class Transaction extends BaseModel
         return $left . $number;
     }
 
-    public static function statusLabels()
-    {
-        return [
-            self::STATUS_PAID => 'Diterima',
-            self::STATUS_YET_PAID => 'Diminta',
-        ];
-    }
+    // public static function statusLabels()
+    // {
+    //     return [
+    //         self::STATUS_PAID => 'Diterima',
+    //         self::STATUS_YET_PAID => 'Diminta',
+    //     ];
+    // }
 
-    public function getStatusLabel() {
-        return self::statusLabels()[$this->status] ? self::statusLabels()[$this->status] : '-';
-    }
+    // public function getStatusLabel() {
+    //     return self::statusLabels()[$this->status] ? self::statusLabels()[$this->status] : '-';
+    // }
 }

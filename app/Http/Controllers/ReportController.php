@@ -58,9 +58,10 @@ class ReportController extends Controller
                     ],
                 ],
             ])
-            ->addColumn(['data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => '#', 'orderable' => false, 'searchable' => false, 'width' => 30])
+            ->addColumn(['data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'No', 'orderable' => false, 'searchable' => false, 'width' => 30])
             ->addColumn(['data' => 'name', 'name' => 'name', 'title' => 'Nama Barang'])
             ->addColumn(['data' => 'minimum_stock', 'name' => 'created_at', 'title' => 'Stok Minimal'])
+            ->addColumn(['data' => 'satuan', 'name' => 'name', 'title' => 'Satuan'])
             ->addColumn(['data' => 'stock', 'name' => 'stock', 'title' => 'Sisa Stok', 'searchable' => false]);
         return view('report.item-stock', compact('dataTable'));
     }
@@ -69,7 +70,7 @@ class ReportController extends Controller
         if ($request->ajax()) {
             $data = Order::select([
                     '*',
-                    DB::raw('SUM(grand_total) as `total`'),
+                    // DB::raw('SUM(grand_total) as `total`'),
                     DB::raw("DATE_FORMAT(order_date, '%m-%Y') date")
                 ])
                 ->groupBy('date');
@@ -78,9 +79,9 @@ class ReportController extends Controller
                 ->editColumn('date', function($row) {
                     return Carbon::createFromFormat('m-Y', $row->date)->format('M Y');
                 })
-                ->editColumn('total', function($row) {
-                    return FormatConverter::rupiahFormat($row->total);
-                });
+                // ->editColumn('total', function($row) {
+                //     return FormatConverter::rupiahFormat($row->total);
+                // });
             return $datatables->make(true);
         }
 
@@ -94,21 +95,21 @@ class ReportController extends Controller
                 'buttons' => [
                     [
                         'extend' => 'csv',
-                        'title' => 'Laporan Rekapitulasi Pembelian Barang',
+                        'title' => 'Laporan Rekapitulasi ATK Masuk',
                     ],
                     [
                         'extend' => 'pdf',
-                        'title' => 'Laporan Rekapitulasi Pembelian Barang',
+                        'title' => 'Laporan Rekapitulasi ATK Masuk',
                     ],
                     [
                         'extend' => 'print',
-                        'title' => 'Laporan Rekapitulasi Pembelian Barang',
+                        'title' => 'Laporan Rekapitulasi ATK Masuk',
                     ],
                 ],
             ])
             ->addColumn(['data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => '#', 'orderable' => false, 'searchable' => false, 'width' => 30])
             ->addColumn(['data' => 'date', 'name' => 'name', 'title' => 'Tahun - Bulan'])
-            ->addColumn(['data' => 'total', 'name' => 'stock', 'title' => 'Total Pembelian', 'searchable' => false]);
+            // ->addColumn(['data' => 'total', 'name' => 'stock', 'title' => 'Total Pembelian', 'searchable' => false]);
         return view('report.order-recap', compact('dataTable'));
     }
 

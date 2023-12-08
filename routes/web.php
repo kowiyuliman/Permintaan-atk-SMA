@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function() {
         Route::post('store', [\App\Http\Controllers\OrderController::class, 'store'])->name('order.store');
         Route::get('/{order}', [\App\Http\Controllers\OrderController::class, 'show'])->name('order.show');
         Route::get('/{order}/print', [\App\Http\Controllers\OrderController::class, 'print'])->name('order.print');
+        Route::get('/{order}/destroy', [\App\Http\Controllers\OrderController::class, 'destroy'])->name('order.destroy');
     });
     Route::prefix('transaction')->group(function() {
         Route::get('/', [\App\Http\Controllers\TransactionController::class, 'index'])->name('transaction.index');

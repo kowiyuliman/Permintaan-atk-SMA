@@ -42,7 +42,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <div class="form-group">
                                     {!! Form::label('status', 'Status') !!}
                                     {!! Form::select('status', [null=>'Please Select'] + \App\Models\Transaction::statusLabels(), null, ['class' => $errors->has('status') ? 'form-control is-invalid' : 'form-control']) !!}
@@ -52,7 +52,7 @@
                                         </div>
                                     @endif
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="card">
                             <div class="card-header">
@@ -64,10 +64,10 @@
                                     <tr>
                                         <th width="10">No</th>
                                         <th>Nama ATK</th>
-                                        <th>Harga Jual</th>
+                                        {{-- <th>Harga Jual</th> --}}
                                         <th>Sisa Stok</th>
                                         <th>Jumlah</th>
-                                        <th>Total Harga</th>
+                                        {{-- <th>Total Harga</th> --}}
                                         <th>Aksi</th>
                                     </tr>
                                     </thead>
@@ -76,10 +76,10 @@
                                     <tfoot>
                                     <tr>
                                         <td colspan="4"><a href="javascript:;;" id="add-item" class="btn btn-success"><i class="fa fa-plus"></i>&nbsp; Tambah Barang</a></td>
-                                        <td>
+                                        {{-- <td>
                                             {!! Form::label('total', 'Total Keseluruhan') !!}
                                             <input type="number" name="grand_total" id="total" class="form-control" readonly />
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                     </tfoot>
                                 </table>
@@ -110,17 +110,17 @@
             let itemsHtml = "<tr>\n" +
                 "<th>"+ (number + 1) +"</th>\n" +
                 "<th><select name='item["+number+"]' class='form-control' required onchange='onChangeItem("+number+", this)'>"+itemSelect+"</select></th>\n" +
-                "<th><input name='price["+number+"]' type='number' class='form-control' required readonly></th>\n" +
+                // "<th><input name='price["+number+"]' type='number' class='form-control' required readonly></th>\n" +
                 "<th><div id='stock_"+number+"'></div></th>\n" +
                 "<th><input name='qty["+number+"]' type='number' class='form-control' onkeyup='onChangeQty("+number+")' required></th>\n" +
-                "<th><input name='total_price["+number+"]' type='number' readonly class='form-control' /></th>\n" +
+                // "<th><input name='total_price["+number+"]' type='number' readonly class='form-control' /></th>\n" +
                 "<th><button class='btn btn-danger remove-table-row' </button>delete</th>\n" +
                 "</tr>"
                 
             $('#items').append(itemsHtml)
             number++
         })
-        function onChangeQty(number) { 
+        function onChangeQty(number) {
             let price = $('#items').find('input[name="price['+number+']"]').val()
             let total = $('#items').find('input[name="total_price['+number+']"]')
             let stock = $('#stock_' + number).html()

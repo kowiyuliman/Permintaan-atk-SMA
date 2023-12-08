@@ -27,7 +27,7 @@ class TransactionController extends Controller
 
     public function index(Request $request) {
         if ($request->ajax()) {
-            $data = Transaction::select(['*'])->with(['user', 'customer']);
+            $data = Transaction::select(['*'])->with(['customer']);
             $datatables = DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
@@ -79,14 +79,10 @@ class TransactionController extends Controller
                 'buttons' => ['pdf'],
                 'order' => [[2, 'desc']],
             ])
-            ->addColumn(['data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => '#', 'orderable' => false, 'searchable' => false, 'width' => 30])
+            ->addColumn(['data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => 'No', 'orderable' => false, 'searchable' => false, 'width' => 30])
             ->addColumn(['data' => 'trx_number', 'name' => 'trx_number', 'title' => 'Nomor Transaksi'])
             ->addColumn(['data' => 'created_at', 'name' => 'created_at', 'title' => 'Tanggal'])
             ->addColumn(['data' => 'customer.name', 'name' => 'customer.name', 'title' => 'Customer'])
-            ->addColumn(['data' => 'grand_total', 'name' => 'grand_total', 'title' => 'Grand Total'])
-            ->addColumn(['data' => 'created_at', 'name' => 'created_at', 'title' => 'Created At'])
-            ->addColumn(['data' => 'updated_at', 'name' => 'updated_at', 'title' => 'Updated At'])
-            ->addColumn(['data' => 'user.name', 'name' => 'user.name', 'title' => 'User'])
             ->addColumn(['data' => 'status', 'status' => 'status', 'title' => 'Status'])
             ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Aksi', 'orderable' => false, 'searchable' => false, 'width' => 100]);
         return view('transaction.index', compact('dataTable'));
@@ -114,18 +110,18 @@ class TransactionController extends Controller
         $request->validate([
             'customer_id' => ['required'],
             'trx_number' => ['required'],
-            'grand_total' => ['required'],
+            // 'grand_total' => ['required'],
         ]);
         $model = new Transaction($request->all());
-        $model->user_id = Auth::user()->id;
+        // $model->user_id = Auth::user()->id;
         $model->save();
         foreach ($request->item as $key => $item) {
             $modelDetail = new TransactionDetail();
             $modelDetail->transaction_id = $model->id;
             $modelDetail->item_id = $item;
             $modelDetail->qty = $request->qty[$key];
-            $modelDetail->price = $request->price[$key];
-            $modelDetail->total_price = $request->total_price[$key];
+            // $modelDetail->price = $request->price[$key];
+            // $modelDetail->total_price = $request->total_price[$key];
             $modelDetail->save();
 
             $stocks = ItemStock::where('item_id', $modelDetail->item_id)->where('stock', '>', 0)->get();

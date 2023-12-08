@@ -6,8 +6,8 @@ use Carbon\Carbon;
 
 class Order extends BaseModel
 {
-    const STATUS_PAID = 1;
-    const STATUS_YET_PAID = 0;
+    // const STATUS_PAID = 1;
+    // const STATUS_YET_PAID = 0;
     /**
      * The attributes that are mass assignable.
      *
@@ -17,7 +17,8 @@ class Order extends BaseModel
         'order_number',
         'supplier_id',
         'order_date',
-        'grand_total',
+        'image',
+        // 'grand_total',
         'note',
         'status',
     ];
@@ -53,15 +54,4 @@ class Order extends BaseModel
         return $left . $number;
     }
 
-    public static function statusLabels()
-    {
-        return [
-            self::STATUS_PAID => 'Lunas',
-            self::STATUS_YET_PAID => 'Belum Lunas',
-        ];
-    }
-
-    public function getStatusLabel() {
-        return self::statusLabels()[$this->status] ? self::statusLabels()[$this->status] : '-';
-    }
 }

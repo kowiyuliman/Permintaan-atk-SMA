@@ -72,8 +72,8 @@ class ItemController extends Controller
             // ->addColumn(['data' => 'sell_price', 'name' => 'sell_price', 'title' => 'Harga Jual'])
             // ->addColumn(['data' => 'purchase_price', 'name' => 'purchase_price', 'title' => 'Harga Beli'])
             ->addColumn(['data' => 'description', 'name' => 'description', 'title' => 'Keterangan'])
-            ->addColumn(['data' => 'status', 'name' => 'status', 'title' => 'Status'])
-            // ->addColumn(['data' => 'created_at', 'name' => 'created_at', 'title' => 'Created At'])
+            // ->addColumn(['data' => 'status', 'name' => 'status', 'title' => 'Status'])
+            ->addColumn(['data' => 'created_at', 'name' => 'created_at', 'title' => 'Created At'])
             // ->addColumn(['data' => 'updated_at', 'name' => 'updated_at', 'title' => 'Updated At'])
             ->addColumn(['data' => 'action', 'name' => 'action', 'title' => 'Aksi', 'orderable' => false, 'searchable' => false, 'width' => 100]);
         return view('item.index', compact('dataTable'));
